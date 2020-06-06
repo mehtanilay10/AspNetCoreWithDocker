@@ -8,9 +8,10 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /source
 COPY ["src/AspNetCoreWithDocker/AspNetCoreWithDocker.csproj", "src/AspNetCoreWithDocker/"]
-RUN dotnet restore "AspNetCoreWithDocker/AspNetCoreWithDocker.csproj"
+RUN dotnet restore "src/AspNetCoreWithDocker/AspNetCoreWithDocker.csproj"
 COPY . .
 WORKDIR "/src/AspNetCoreWithDocker"
+RUN ls -la .
 RUN dotnet build "AspNetCoreWithDocker.csproj" -c Release -o /app/build
 
 FROM build AS publish
