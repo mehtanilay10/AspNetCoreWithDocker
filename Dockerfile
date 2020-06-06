@@ -11,7 +11,8 @@ COPY ["src/AspNetCoreWithDocker/AspNetCoreWithDocker.csproj", "src/AspNetCoreWit
 RUN dotnet restore "src/AspNetCoreWithDocker/AspNetCoreWithDocker.csproj"
 COPY . .
 WORKDIR "/src/AspNetCoreWithDocker"
-RUN ls -la .
+RUN ls
+RUN pwd
 RUN dotnet build "AspNetCoreWithDocker.csproj" -c Release -o /app/build
 
 FROM build AS publish
