@@ -2,19 +2,16 @@
 
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
 WORKDIR /app
-EXPOSE 80
-EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
-RUN ls -la
-WORKDIR /src
-COPY ["AspNetCoreWithDocker/AspNetCoreWithDocker.csproj", "AspNetCoreWithDocker/"]
-RUN dotnet restore "AspNetCoreWithDocker/AspNetCoreWithDocker.csproj"
+WORKDIR /source
+COPY ["src/AspNetCoreWithDocker/AspNetCoreWithDocker.csproj", "src/AspNetCoreWithDocker/"]
+RUN dotnet restore "src/AspNetCoreWithDocker/AspNetCoreWithDocker.csproj"
 COPY . .
-RUN dotnet build "AspNetCoreWithDocker/AspNetCoreWithDocker.csproj" -c Release -o /app/build
+RUN dotnet build "src/AspNetCoreWithDocker/AspNetCoreWithDocker.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "AspNetCoreWithDocker/AspNetCoreWithDocker.csproj" -c Release -o /app/publish
+RUN dotnet publish "src/AspNetCoreWithDocker/AspNetCoreWithDocker.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
